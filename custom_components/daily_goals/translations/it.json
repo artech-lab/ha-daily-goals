@@ -1,0 +1,248 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Obiettivi giornalieri",
+        "description": "Notifiche e premio per una giornata perfetta. Dopo questo passaggio aggiungi i tuoi obiettivi con **Aggiungi obiettivo** nella pagina dell'integrazione.",
+        "data": {
+          "name": "Nome",
+          "notify_services": "Servizi di notifica",
+          "persistent_notification": "Notifiche persistenti",
+          "notification_images": "Immagini nelle notifiche",
+          "open_on_tap": "Apri al tocco",
+          "perfect_day_reward": "Premio per la giornata perfetta"
+        },
+        "data_description": {
+          "name": "Nome del dispositivo e prefisso degli ID entità. Ad esempio una voce per persona.",
+          "notify_services": "Azioni `notify.*` che ricevono un messaggio quando un obiettivo è raggiunto, ad esempio l'app mobile. Lascia vuoto per nessuna notifica push.",
+          "persistent_notification": "Mostra i traguardi anche in Home Assistant. Vengono chiuse a mezzanotte.",
+          "notification_images": "Solo app mobile: ogni giorno un'immagine divertente diversa (volpi, gatti, cani, anatre, robot, paesaggi) da servizi online gratuiti.",
+          "open_on_tap": "Solo app mobile: percorso della dashboard aperto toccando la notifica, ad esempio `/lovelace/salute`.",
+          "perfect_day_reward": "Facoltativo. Inviato quando tutti gli obiettivi del giorno sono raggiunti, ad esempio \"Un episodio della tua serie preferita\"."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Esiste già un insieme di obiettivi con questo nome."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Notifiche e premi",
+        "data": {
+          "notify_services": "Servizi di notifica",
+          "persistent_notification": "Notifiche persistenti",
+          "notification_images": "Immagini nelle notifiche",
+          "open_on_tap": "Apri al tocco",
+          "perfect_day_reward": "Premio per la giornata perfetta"
+        },
+        "data_description": {
+          "notify_services": "Azioni `notify.*` che ricevono un messaggio quando un obiettivo è raggiunto, ad esempio l'app mobile. Lascia vuoto per nessuna notifica push.",
+          "persistent_notification": "Mostra i traguardi anche in Home Assistant. Vengono chiuse a mezzanotte.",
+          "notification_images": "Solo app mobile: ogni giorno un'immagine divertente diversa (volpi, gatti, cani, anatre, robot, paesaggi) da servizi online gratuiti.",
+          "open_on_tap": "Solo app mobile: percorso della dashboard aperto toccando la notifica, ad esempio `/lovelace/salute`.",
+          "perfect_day_reward": "Facoltativo. Inviato quando tutti gli obiettivi del giorno sono raggiunti, ad esempio \"Un episodio della tua serie preferita\"."
+        }
+      }
+    }
+  },
+  "config_subentries": {
+    "goal": {
+      "initiate_flow": {
+        "user": "Aggiungi obiettivo",
+        "reconfigure": "Modifica obiettivo"
+      },
+      "entry_type": "Obiettivo",
+      "step": {
+        "user": {
+          "title": "Aggiungi un obiettivo",
+          "description": "Scegli il sensore da seguire e il traguardo da raggiungere ogni giorno.",
+          "data": {
+            "source_entity": "Sensore",
+            "name": "Nome",
+            "target": "Traguardo",
+            "direction": "Direzione",
+            "daily_reset": "Dopo la mezzanotte",
+            "complete_with": "Completa insieme a"
+          },
+          "data_description": {
+            "source_entity": "Qualsiasi entità con stato numerico: sensore, numero, input numerico o contatore.",
+            "name": "Mostrato nella card e nelle notifiche. Predefinito: il nome del sensore.",
+            "target": "Il valore da raggiungere (o da non superare) ogni giorno.",
+            "direction": "Se il valore deve raggiungere il traguardo o restare uguale o inferiore.",
+            "daily_reset": "Quali valori contano ogni nuovo giorno.",
+            "complete_with": "Facoltativo. L'obiettivo conta come raggiunto solo quando anche quest'altro obiettivo è raggiunto nello stesso momento (ad esempio pressione massima e minima)."
+          },
+          "sections": {
+            "reward_section": {
+              "name": "Premio",
+              "description": "Punti, premio e notifica di questo obiettivo.",
+              "data": {
+                "points": "Punti",
+                "reward": "Premio",
+                "notify": "Notifica"
+              },
+              "data_description": {
+                "points": "Aggiunti ai punti del giorno e al totale quando l'obiettivo è raggiunto.",
+                "reward": "Facoltativo. Un premio che ti concedi, mostrato nella notifica e nella card, ad esempio \"Un quadratino di cioccolato fondente\".",
+                "notify": "Invia una notifica quando l'obiettivo è raggiunto."
+              }
+            },
+            "appearance": {
+              "name": "Aspetto",
+              "description": "Come appare l'obiettivo nella card.",
+              "data": {
+                "icon": "Icona",
+                "color": "Colore",
+                "unit": "Unità",
+                "decimals": "Cifre decimali",
+                "waiting_text": "Testo in attesa"
+              },
+              "data_description": {
+                "icon": "Predefinita: un bersaglio.",
+                "color": "Colore dell'anello di avanzamento. Predefinito: un colore della tavolozza della card.",
+                "unit": "Predefinita: l'unità del sensore.",
+                "decimals": "Cifre decimali del valore, 0-2.",
+                "waiting_text": "Mostrato nella card finché non arriva il valore di oggi, ad esempio \"Sali sulla bilancia!\". Predefinito: \"In attesa del valore di oggi\"."
+              }
+            }
+          }
+        },
+        "reconfigure": {
+          "title": "Modifica l'obiettivo",
+          "description": "Scegli il sensore da seguire e il traguardo da raggiungere ogni giorno.",
+          "data": {
+            "source_entity": "Sensore",
+            "name": "Nome",
+            "target": "Traguardo",
+            "direction": "Direzione",
+            "daily_reset": "Dopo la mezzanotte",
+            "complete_with": "Completa insieme a"
+          },
+          "data_description": {
+            "source_entity": "Qualsiasi entità con stato numerico: sensore, numero, input numerico o contatore.",
+            "name": "Mostrato nella card e nelle notifiche. Predefinito: il nome del sensore.",
+            "target": "Il valore da raggiungere (o da non superare) ogni giorno.",
+            "direction": "Se il valore deve raggiungere il traguardo o restare uguale o inferiore.",
+            "daily_reset": "Quali valori contano ogni nuovo giorno.",
+            "complete_with": "Facoltativo. L'obiettivo conta come raggiunto solo quando anche quest'altro obiettivo è raggiunto nello stesso momento (ad esempio pressione massima e minima)."
+          },
+          "sections": {
+            "reward_section": {
+              "name": "Premio",
+              "description": "Punti, premio e notifica di questo obiettivo.",
+              "data": {
+                "points": "Punti",
+                "reward": "Premio",
+                "notify": "Notifica"
+              },
+              "data_description": {
+                "points": "Aggiunti ai punti del giorno e al totale quando l'obiettivo è raggiunto.",
+                "reward": "Facoltativo. Un premio che ti concedi, mostrato nella notifica e nella card, ad esempio \"Un quadratino di cioccolato fondente\".",
+                "notify": "Invia una notifica quando l'obiettivo è raggiunto."
+              }
+            },
+            "appearance": {
+              "name": "Aspetto",
+              "description": "Come appare l'obiettivo nella card.",
+              "data": {
+                "icon": "Icona",
+                "color": "Colore",
+                "unit": "Unità",
+                "decimals": "Cifre decimali",
+                "waiting_text": "Testo in attesa"
+              },
+              "data_description": {
+                "icon": "Predefinita: un bersaglio.",
+                "color": "Colore dell'anello di avanzamento. Predefinito: un colore della tavolozza della card.",
+                "unit": "Predefinita: l'unità del sensore.",
+                "decimals": "Cifre decimali del valore, 0-2.",
+                "waiting_text": "Mostrato nella card finché non arriva il valore di oggi, ad esempio \"Sali sulla bilancia!\". Predefinito: \"In attesa del valore di oggi\"."
+              }
+            }
+          }
+        }
+      },
+      "error": {
+        "name_exists": "Un altro obiettivo ha già questo nome.",
+        "target_not_positive": "Un traguardo da raggiungere deve essere maggiore di zero."
+      },
+      "abort": {
+        "reconfigure_successful": "L'obiettivo è stato aggiornato."
+      }
+    }
+  },
+  "selector": {
+    "direction": {
+      "options": {
+        "above": "Raggiungi almeno il traguardo",
+        "below": "Resta uguale o sotto il traguardo"
+      }
+    },
+    "daily_reset": {
+      "options": {
+        "new_value": "Attendi un nuovo valore (contatori giornalieri, misurazioni, test)",
+        "current_value": "Usa il valore attuale (medie e tendenze)"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "achieved": {
+        "name": "Obiettivi raggiunti",
+        "unit_of_measurement": "obiettivi"
+      },
+      "completion": {
+        "name": "Completamento"
+      },
+      "streak": {
+        "name": "Serie",
+        "unit_of_measurement": "giorni"
+      },
+      "best_streak": {
+        "name": "Serie migliore",
+        "unit_of_measurement": "giorni"
+      },
+      "points_today": {
+        "name": "Punti di oggi",
+        "unit_of_measurement": "punti"
+      },
+      "total_points": {
+        "name": "Punti totali",
+        "unit_of_measurement": "punti"
+      },
+      "progress": {
+        "name": "Avanzamento {goal}"
+      }
+    },
+    "binary_sensor": {
+      "perfect_day": {
+        "name": "Giornata perfetta"
+      },
+      "achieved": {
+        "name": "Obiettivo {goal} raggiunto"
+      }
+    }
+  },
+  "services": {
+    "set_statistics": {
+      "name": "Imposta statistiche",
+      "description": "Imposta a mano la serie, la serie migliore e i punti totali, ad esempio per riportarli da un'altra configurazione. Scegli come destinazione un qualsiasi sensore dell'insieme di obiettivi.",
+      "fields": {
+        "streak": {
+          "name": "Serie",
+          "description": "Giornate perfette di fila, oggi compreso se è già perfetta."
+        },
+        "best_streak": {
+          "name": "Serie migliore",
+          "description": "Serie più lunga finora (mai inferiore alla serie)."
+        },
+        "total_points": {
+          "name": "Punti totali",
+          "description": "Punti guadagnati finora."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "entity": {
+    "sensor": {
+      "achieved": {
+        "default": "mdi:trophy"
+      },
+      "completion": {
+        "default": "mdi:progress-check"
+      },
+      "streak": {
+        "default": "mdi:fire",
+        "range": {
+          "0": "mdi:fire-off",
+          "1": "mdi:fire"
+        }
+      },
+      "best_streak": {
+        "default": "mdi:medal"
+      },
+      "points_today": {
+        "default": "mdi:star-circle"
+      },
+      "total_points": {
+        "default": "mdi:star-shooting"
+      },
+      "progress": {
+        "default": "mdi:target"
+      }
+    },
+    "binary_sensor": {
+      "perfect_day": {
+        "default": "mdi:star-outline",
+        "state": {
+          "on": "mdi:star"
+        }
+      },
+      "achieved": {
+        "default": "mdi:trophy-outline",
+        "state": {
+          "on": "mdi:trophy"
+        }
+      }
+    }
+  },
+  "services": {
+    "set_statistics": {
+      "service": "mdi:counter"
+    }
+  }
+}

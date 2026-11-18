@@ -1,0 +1,89 @@
+<!doctype html>
+<!--
+  Preview of the card with fictional demo data, outside Home Assistant.
+  Used by scripts/screenshots.py to build the README images. It can be opened by hand:
+  `python -m http.server` in the repository root, then
+  http://localhost:8000/scripts/preview.html?lang=it
+-->
+<html><head><meta charset="utf-8"><title>Daily Goals card preview</title>
+<style>
+html,body{margin:0}
+body{font-family:Roboto,Inter,system-ui,sans-serif;display:flex}
+.pane{padding:24px;width:440px;--success-color:#4caf50;--warning-color:#ff9800;--error-color:#f44336;--amber-color:#ffc107;--orange-color:#ff9800;--deep-orange-color:#ff5722;--primary-color:#03a9f4}
+.light{background:#f2f4f7;--card-background-color:#fff;--primary-text-color:#212121;--secondary-text-color:#727272;--secondary-background-color:#eef0f3;--divider-color:rgba(0,0,0,.12);--ha-card-border-color:#e0e0e0}
+.dark{background:#111418;--card-background-color:#1c1f24;--primary-text-color:#e1e1e1;--secondary-text-color:#9b9b9b;--secondary-background-color:#262a30;--divider-color:rgba(225,225,225,.12);--ha-card-border-color:#2c3036}
+</style></head><body>
+<div class="pane light"></div>
+<div class="pane dark"></div>
+<script type="module">
+// Minimal stand-ins for the Home Assistant elements used by the card (MDI paths, Apache-2.0).
+const ICONS = {"trophy":"M18 2C17.1 2 16 3 16 4H8C8 3 6.9 2 6 2H2V11C2 12 3 13 4 13H6.2C6.6 15 7.9 16.7 11 17V19.08C8 19.54 8 22 8 22H16C16 22 16 19.54 13 19.08V17C16.1 16.7 17.4 15 17.8 13H20C21 13 22 12 22 11V2H18M6 11H4V4H6V11M20 11H18V4H20V11Z","fire":"M17.66 11.2C17.43 10.9 17.15 10.64 16.89 10.38C16.22 9.78 15.46 9.35 14.82 8.72C13.33 7.26 13 4.85 13.95 3C13 3.23 12.17 3.75 11.46 4.32C8.87 6.4 7.85 10.07 9.07 13.22C9.11 13.32 9.15 13.42 9.15 13.55C9.15 13.77 9 13.97 8.8 14.05C8.57 14.15 8.33 14.09 8.14 13.93C8.08 13.88 8.04 13.83 8 13.76C6.87 12.33 6.69 10.28 7.45 8.64C5.78 10 4.87 12.3 5 14.47C5.06 14.97 5.12 15.47 5.29 15.97C5.43 16.57 5.7 17.17 6 17.7C7.08 19.43 8.95 20.67 10.96 20.92C13.1 21.19 15.39 20.8 17.03 19.32C18.86 17.66 19.5 15 18.56 12.72L18.43 12.46C18.22 12 17.66 11.2 17.66 11.2M14.5 17.5C14.22 17.74 13.76 18 13.4 18.1C12.28 18.5 11.16 17.94 10.5 17.28C11.69 17 12.4 16.12 12.61 15.23C12.78 14.43 12.46 13.77 12.33 13C12.21 12.26 12.23 11.63 12.5 10.94C12.69 11.32 12.89 11.7 13.13 12C13.9 13 15.11 13.44 15.37 14.8C15.41 14.94 15.43 15.08 15.43 15.23C15.46 16.05 15.1 16.95 14.5 17.5H14.5Z","star-circle":"M16.23,18L12,15.45L7.77,18L8.89,13.19L5.16,9.96L10.08,9.54L12,5L13.92,9.53L18.84,9.95L15.11,13.18L16.23,18M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z","check-bold":"M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z","walk":"M14.12,10H19V8.2H15.38L13.38,4.87C13.08,4.37 12.54,4.03 11.92,4.03C11.74,4.03 11.58,4.06 11.42,4.11L6,5.8V11H7.8V7.33L9.91,6.67L6,22H7.8L10.67,13.89L13,17V22H14.8V15.59L12.31,11.05L13.04,8.18M14,3.8C15,3.8 15.8,3 15.8,2C15.8,1 15,0.2 14,0.2C13,0.2 12.2,1 12.2,2C12.2,3 13,3.8 14,3.8Z","sleep":"M23,12H17V10L20.39,6H17V4H23V6L19.62,10H23V12M15,16H9V14L12.39,10H9V8H15V10L11.62,14H15V16M7,20H1V18L4.39,14H1V12H7V14L3.62,18H7V20Z","cup-water":"M18.32,8H5.67L5.23,4H18.77M12,19A3,3 0 0,1 9,16C9,14 12,10.6 12,10.6C12,10.6 15,14 15,16A3,3 0 0,1 12,19M3,2L5,20.23C5.13,21.23 5.97,22 7,22H17C18,22 18.87,21.23 19,20.23L21,2H3Z","map-marker-distance":"M6.5,8.11C5.61,8.11 4.89,7.39 4.89,6.5A1.61,1.61 0 0,1 6.5,4.89C7.39,4.89 8.11,5.61 8.11,6.5V6.5A1.61,1.61 0 0,1 6.5,8.11M6.5,2C4,2 2,4 2,6.5C2,9.87 6.5,14.86 6.5,14.86C6.5,14.86 11,9.87 11,6.5C11,4 9,2 6.5,2M17.5,8.11A1.61,1.61 0 0,1 15.89,6.5C15.89,5.61 16.61,4.89 17.5,4.89C18.39,4.89 19.11,5.61 19.11,6.5A1.61,1.61 0 0,1 17.5,8.11M17.5,2C15,2 13,4 13,6.5C13,9.87 17.5,14.86 17.5,14.86C17.5,14.86 22,9.87 22,6.5C22,4 20,2 17.5,2M17.5,16C16.23,16 15.1,16.8 14.68,18H9.32C8.77,16.44 7.05,15.62 5.5,16.17C3.93,16.72 3.11,18.44 3.66,20C4.22,21.56 5.93,22.38 7.5,21.83C8.35,21.53 9,20.85 9.32,20H14.69C15.24,21.56 16.96,22.38 18.5,21.83C20.08,21.28 20.9,19.56 20.35,18C19.92,16.8 18.78,16 17.5,16V16M17.5,20.5A1.5,1.5 0 0,1 16,19A1.5,1.5 0 0,1 17.5,17.5A1.5,1.5 0 0,1 19,19A1.5,1.5 0 0,1 17.5,20.5Z","heart-pulse":"M7.5,4A5.5,5.5 0 0,0 2,9.5C2,10 2.09,10.5 2.22,11H6.3L7.57,7.63C7.87,6.83 9.05,6.75 9.43,7.63L11.5,13L12.09,11.58C12.22,11.25 12.57,11 13,11H21.78C21.91,10.5 22,10 22,9.5A5.5,5.5 0 0,0 16.5,4C14.64,4 13,4.93 12,6.34C11,4.93 9.36,4 7.5,4V4M3,12.5A1,1 0 0,0 2,13.5A1,1 0 0,0 3,14.5H5.44L11,20C12,20.9 12,20.9 13,20L18.56,14.5H21A1,1 0 0,0 22,13.5A1,1 0 0,0 21,12.5H13.4L12.47,14.8C12.07,15.81 10.92,15.67 10.55,14.83L8.5,9.5L7.54,11.83C7.39,12.21 7.05,12.5 6.6,12.5H3Z","heart-outline":"M12.1,18.55L12,18.65L11.89,18.55C7.14,14.24 4,11.39 4,8.5C4,6.5 5.5,5 7.5,5C9.04,5 10.54,6 11.07,7.36H12.93C13.46,6 14.96,5 16.5,5C18.5,5 20,6.5 20,8.5C20,11.39 16.86,14.24 12.1,18.55M16.5,3C14.76,3 13.09,3.81 12,5.08C10.91,3.81 9.24,3 7.5,3C4.42,3 2,5.41 2,8.5C2,12.27 5.4,15.36 10.55,20.03L12,21.35L13.45,20.03C18.6,15.36 22,12.27 22,8.5C22,5.41 19.58,3 16.5,3Z","scale-bathroom":"M5,2H19A2,2 0 0,1 21,4V20A2,2 0 0,1 19,22H5A2,2 0 0,1 3,20V4A2,2 0 0,1 5,2M12,4A4,4 0 0,0 8,8H11.26L10.85,5.23L12.9,8H16A4,4 0 0,0 12,4M5,10V20H19V10H5Z","heart":"M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z","sine-wave":"M16.5,21C13.5,21 12.31,16.76 11.05,12.28C10.14,9.04 9,5 7.5,5C4.11,5 4,11.93 4,12H2C2,11.63 2.06,3 7.5,3C10.5,3 11.71,7.25 12.97,11.74C13.83,14.8 15,19 16.5,19C19.94,19 20.03,12.07 20.03,12H22.03C22.03,12.37 21.97,21 16.5,21Z","meditation":"M12 4C13.11 4 14 4.89 14 6S13.11 8 12 8 10 7.11 10 6 10.9 4 12 4M21 16V14C18.76 14 16.84 13.04 15.4 11.32L14.06 9.72C13.68 9.26 13.12 9 12.53 9H11.5C10.89 9 10.33 9.26 9.95 9.72L8.61 11.32C7.16 13.04 5.24 14 3 14V16C5.77 16 8.19 14.83 10 12.75V15L6.12 16.55C5.45 16.82 5 17.5 5 18.21C5 19.2 5.8 20 6.79 20H9V19.5C9 18.12 10.12 17 11.5 17H14.5C14.78 17 15 17.22 15 17.5S14.78 18 14.5 18H11.5C10.67 18 10 18.67 10 19.5V20H17.21C18.2 20 19 19.2 19 18.21C19 17.5 18.55 16.82 17.88 16.55L14 15V12.75C15.81 14.83 18.23 16 21 16Z","percent":"M18.5,3.5L3.5,18.5L5.5,20.5L20.5,5.5M7,4A3,3 0 0,0 4,7A3,3 0 0,0 7,10A3,3 0 0,0 10,7A3,3 0 0,0 7,4M17,14A3,3 0 0,0 14,17A3,3 0 0,0 17,20A3,3 0 0,0 20,17A3,3 0 0,0 17,14Z","target":"M11,2V4.07C7.38,4.53 4.53,7.38 4.07,11H2V13H4.07C4.53,16.62 7.38,19.47 11,19.93V22H13V19.93C16.62,19.47 19.47,16.62 19.93,13H22V11H19.93C19.47,7.38 16.62,4.53 13,4.07V2M11,6.08V8H13V6.09C15.5,6.5 17.5,8.5 17.92,11H16V13H17.91C17.5,15.5 15.5,17.5 13,17.92V16H11V17.91C8.5,17.5 6.5,15.5 6.08,13H8V11H6.09C6.5,8.5 8.5,6.5 11,6.08M12,11A1,1 0 0,0 11,12A1,1 0 0,0 12,13A1,1 0 0,0 13,12A1,1 0 0,0 12,11Z"};
+customElements.define("ha-card", class extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" }).innerHTML = `<style>:host{display:block;background:var(--card-background-color);border-radius:12px;border:1px solid var(--ha-card-border-color);color:var(--primary-text-color)}</style><slot></slot>`;
+  }
+});
+customElements.define("ha-icon", class extends HTMLElement {
+  static get observedAttributes() { return ["icon"]; }
+  connectedCallback() { this._draw(); }
+  attributeChangedCallback() { this._draw(); }
+  _draw() {
+    const path = ICONS[(this.getAttribute("icon") || "").replace("mdi:", "")] || "";
+    this.style.display = "inline-flex";
+    this.innerHTML = `<svg viewBox="0 0 24 24" style="width:var(--mdc-icon-size,24px);height:var(--mdc-icon-size,24px);fill:currentColor"><path d="${path}"/></svg>`;
+  }
+});
+
+await import("../custom_components/daily_goals/frontend/daily-goals-card.js?v=demo");
+
+// Fictional demo data.
+const lang = new URLSearchParams(location.search).get("lang") || "en";
+const it = lang === "it";
+const g = (id, en, itName, icon, unit, target, value, progress, extra = {}) => ({
+  id, name: it ? itName : en, icon, color: null, unit, decimals: 0, target, direction: "above",
+  value, progress, achieved: false, waiting: false, waiting_text: "", points: 10, reward: "", source: "sensor.demo_" + id,
+  ...extra
+});
+const goals = [
+  g("steps", "Steps", "Passi", "mdi:walk", it ? "passi" : "steps", 7500, 8214, 100,
+    { achieved: true, reward: it ? "Caffè al bar" : "Coffee break" }),
+  g("kcal", "Active calories", "Calorie attive", "mdi:fire", "kcal", 500, 385, 77),
+  g("sleep", "Sleep score", "Qualità sonno", "mdi:sleep", it ? "punti" : "points", 70, 82, 100, { achieved: true }),
+  g("water", "Water", "Acqua", "mdi:cup-water", "mL", 2000, 1250, 63),
+  g("distance", "Distance", "Distanza", "mdi:map-marker-distance", "m", 6000, 4130, 69),
+  g("sys", "Systolic", "Pressione max", "mdi:heart-pulse", "mmHg", 135, null, null,
+    { direction: "below", waiting: true, waiting_text: it ? "Misura la pressione!" : "Measure your blood pressure!" }),
+  g("trend", "Weight trend", "Trend peso", "mdi:scale-bathroom", "kg", 0, -0.3, 100,
+    { direction: "below", decimals: 1, achieved: true }),
+  g("rhr", "Resting HR", "FC a riposo", "mdi:heart", "bpm", 65, 63, 100, { direction: "below", achieved: true }),
+  g("hrv", "HRV (7 d)", "HRV (7 g)", "mdi:sine-wave", "ms", 40, 37, 93),
+  g("mind", "Meditation", "Meditazione", "mdi:meditation", "min", 10, 10, 100,
+    { achieved: true, reward: it ? "Una puntata" : "One episode" }),
+  g("fat", "Body fat", "Massa grassa", "mdi:percent", "%", 24, null, null,
+    { direction: "below", decimals: 1, waiting: true, waiting_text: it ? "Sali sulla bilancia!" : "Step on the scale!" }),
+  g("focus", "Focus test", "Test attenzione", "mdi:target", it ? "punti" : "points", 85, 71, 84)
+];
+const reg = {};
+const states = {};
+const add = (id, key, state, attributes = {}) => {
+  reg[id] = { entity_id: id, platform: "daily_goals", translation_key: key, device_id: "demo" };
+  states[id] = { entity_id: id, state: String(state), attributes };
+};
+add("sensor.daily_goals_achieved", "achieved", goals.filter((x) => x.achieved).length,
+  { total: goals.length, perfect_day: false, perfect_day_reward: "", goals });
+add("sensor.daily_goals_completion", "completion", 84);
+add("sensor.daily_goals_streak", "streak", 4);
+add("sensor.daily_goals_best_streak", "best_streak", 9);
+add("sensor.daily_goals_points_today", "points_today", 50);
+add("sensor.daily_goals_total_points", "total_points", 1280);
+const hass = { states, entities: reg, devices: { demo: { name: "Daily goals" } }, locale: { language: lang }, language: lang };
+
+for (const pane of document.querySelectorAll(".pane")) {
+  const card = document.createElement("daily-goals-card");
+  card.setConfig({ entity: "sensor.daily_goals_achieved", columns: 3 });
+  card.hass = hass;
+  pane.appendChild(card);
+}
+document.body.dataset.ready = "1";
+</script></body></html>

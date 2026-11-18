@@ -1,0 +1,24 @@
+{
+  "domain": "daily_goals",
+  "name": "Daily Goals",
+  "after_dependencies": [
+    "notify"
+  ],
+  "categories": [
+    "health_wellbeing"
+  ],
+  "codeowners": [
+    "@artech-lab"
+  ],
+  "config_flow": true,
+  "dependencies": [
+    "frontend",
+    "http"
+  ],
+  "documentation": "https://github.com/artech-lab/ha-daily-goals",
+  "integration_type": "service",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/artech-lab/ha-daily-goals/issues",
+  "requirements": [],
+  "version": "1.0.0"
+}

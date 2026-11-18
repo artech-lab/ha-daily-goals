@@ -1,0 +1,27 @@
+set_statistics:
+  target:
+    entity:
+      integration: daily_goals
+      domain: sensor
+  fields:
+    streak:
+      example: 12
+      selector:
+        number:
+          min: 0
+          max: 100000
+          mode: box
+    best_streak:
+      example: 30
+      selector:
+        number:
+          min: 0
+          max: 100000
+          mode: box
+    total_points:
+      example: 2450
+      selector:
+        number:
+          min: 0
+          max: 100000000
+          mode: box

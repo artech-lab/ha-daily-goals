@@ -1,0 +1,39 @@
+name: Bug report
+description: Something does not work as expected
+labels: [bug]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: What did you expect and what happened instead?
+    validations:
+      required: true
+  - type: input
+    id: ha_version
+    attributes:
+      label: Home Assistant version
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Daily Goals version
+    validations:
+      required: true
+  - type: textarea
+    id: setup
+    attributes:
+      label: Setup
+      description: The goals involved (sensor, target, direction, after midnight) and what the sensor did around the time of the problem.
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Diagnostics
+      description: Settings → Devices & services → Daily Goals → ⋮ → Download diagnostics. Attach the file.
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Relevant log lines with `custom_components.daily_goals` set to debug.
+      render: text

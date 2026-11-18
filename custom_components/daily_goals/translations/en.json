@@ -1,0 +1,248 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Daily goals",
+        "description": "Notifications and the reward for a perfect day. After this step, add your goals with **Add goal** on the integration page.",
+        "data": {
+          "name": "Name",
+          "notify_services": "Notification services",
+          "persistent_notification": "Persistent notifications",
+          "notification_images": "Pictures in the notifications",
+          "open_on_tap": "Open on tap",
+          "perfect_day_reward": "Perfect-day reward"
+        },
+        "data_description": {
+          "name": "Device name and prefix of the entity IDs. One entry per person, for example.",
+          "notify_services": "`notify.*` actions that receive a message when a goal is achieved, for example the mobile app. Leave empty for no push notifications.",
+          "persistent_notification": "Also show the achievements in Home Assistant. They are dismissed at midnight.",
+          "notification_images": "Mobile app only: a different fun picture every day (foxes, cats, dogs, ducks, robots, landscapes) from free online services.",
+          "open_on_tap": "Mobile app only: dashboard path opened when the notification is tapped, for example `/lovelace/health`.",
+          "perfect_day_reward": "Optional. Sent when every goal of the day is achieved, for example \"An episode of your favourite series\"."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "A set of goals with this name already exists."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Notifications and rewards",
+        "data": {
+          "notify_services": "Notification services",
+          "persistent_notification": "Persistent notifications",
+          "notification_images": "Pictures in the notifications",
+          "open_on_tap": "Open on tap",
+          "perfect_day_reward": "Perfect-day reward"
+        },
+        "data_description": {
+          "notify_services": "`notify.*` actions that receive a message when a goal is achieved, for example the mobile app. Leave empty for no push notifications.",
+          "persistent_notification": "Also show the achievements in Home Assistant. They are dismissed at midnight.",
+          "notification_images": "Mobile app only: a different fun picture every day (foxes, cats, dogs, ducks, robots, landscapes) from free online services.",
+          "open_on_tap": "Mobile app only: dashboard path opened when the notification is tapped, for example `/lovelace/health`.",
+          "perfect_day_reward": "Optional. Sent when every goal of the day is achieved, for example \"An episode of your favourite series\"."
+        }
+      }
+    }
+  },
+  "config_subentries": {
+    "goal": {
+      "initiate_flow": {
+        "user": "Add goal",
+        "reconfigure": "Edit goal"
+      },
+      "entry_type": "Goal",
+      "step": {
+        "user": {
+          "title": "Add a goal",
+          "description": "Pick the sensor to follow and the target to reach every day.",
+          "data": {
+            "source_entity": "Sensor",
+            "name": "Name",
+            "target": "Target",
+            "direction": "Direction",
+            "daily_reset": "After midnight",
+            "complete_with": "Complete together with"
+          },
+          "data_description": {
+            "source_entity": "Any entity with a numeric state: sensor, number, input number or counter.",
+            "name": "Shown on the card and in the notifications. Default: the name of the sensor.",
+            "target": "The value to reach (or not to exceed) every day.",
+            "direction": "Whether the value must reach the target or stay at or under it.",
+            "daily_reset": "Which values count every new day.",
+            "complete_with": "Optional. The goal counts as achieved only when this other goal is achieved at the same time (for example systolic and diastolic blood pressure)."
+          },
+          "sections": {
+            "reward_section": {
+              "name": "Reward",
+              "description": "Points, prize and notification for this goal.",
+              "data": {
+                "points": "Points",
+                "reward": "Reward",
+                "notify": "Notify"
+              },
+              "data_description": {
+                "points": "Added to the points of the day and to the total when the goal is achieved.",
+                "reward": "Optional. A prize you give yourself, shown in the notification and on the card, for example \"A square of dark chocolate\".",
+                "notify": "Send a notification when the goal is achieved."
+              }
+            },
+            "appearance": {
+              "name": "Appearance",
+              "description": "How the goal looks on the card.",
+              "data": {
+                "icon": "Icon",
+                "color": "Color",
+                "unit": "Unit",
+                "decimals": "Decimal places",
+                "waiting_text": "Text while waiting"
+              },
+              "data_description": {
+                "icon": "Default: a target.",
+                "color": "Color of the progress ring. Default: a color of the card palette.",
+                "unit": "Default: the unit of the sensor.",
+                "decimals": "Decimal places of the value, 0-2.",
+                "waiting_text": "Shown on the card until today's value arrives, for example \"Step on the scale!\". Default: \"Waiting for today's value\"."
+              }
+            }
+          }
+        },
+        "reconfigure": {
+          "title": "Edit the goal",
+          "description": "Pick the sensor to follow and the target to reach every day.",
+          "data": {
+            "source_entity": "Sensor",
+            "name": "Name",
+            "target": "Target",
+            "direction": "Direction",
+            "daily_reset": "After midnight",
+            "complete_with": "Complete together with"
+          },
+          "data_description": {
+            "source_entity": "Any entity with a numeric state: sensor, number, input number or counter.",
+            "name": "Shown on the card and in the notifications. Default: the name of the sensor.",
+            "target": "The value to reach (or not to exceed) every day.",
+            "direction": "Whether the value must reach the target or stay at or under it.",
+            "daily_reset": "Which values count every new day.",
+            "complete_with": "Optional. The goal counts as achieved only when this other goal is achieved at the same time (for example systolic and diastolic blood pressure)."
+          },
+          "sections": {
+            "reward_section": {
+              "name": "Reward",
+              "description": "Points, prize and notification for this goal.",
+              "data": {
+                "points": "Points",
+                "reward": "Reward",
+                "notify": "Notify"
+              },
+              "data_description": {
+                "points": "Added to the points of the day and to the total when the goal is achieved.",
+                "reward": "Optional. A prize you give yourself, shown in the notification and on the card, for example \"A square of dark chocolate\".",
+                "notify": "Send a notification when the goal is achieved."
+              }
+            },
+            "appearance": {
+              "name": "Appearance",
+              "description": "How the goal looks on the card.",
+              "data": {
+                "icon": "Icon",
+                "color": "Color",
+                "unit": "Unit",
+                "decimals": "Decimal places",
+                "waiting_text": "Text while waiting"
+              },
+              "data_description": {
+                "icon": "Default: a target.",
+                "color": "Color of the progress ring. Default: a color of the card palette.",
+                "unit": "Default: the unit of the sensor.",
+                "decimals": "Decimal places of the value, 0-2.",
+                "waiting_text": "Shown on the card until today's value arrives, for example \"Step on the scale!\". Default: \"Waiting for today's value\"."
+              }
+            }
+          }
+        }
+      },
+      "error": {
+        "name_exists": "Another goal already has this name.",
+        "target_not_positive": "A target to reach must be greater than zero."
+      },
+      "abort": {
+        "reconfigure_successful": "The goal has been updated."
+      }
+    }
+  },
+  "selector": {
+    "direction": {
+      "options": {
+        "above": "Reach at least the target",
+        "below": "Stay at or under the target"
+      }
+    },
+    "daily_reset": {
+      "options": {
+        "new_value": "Wait for a new value (daily counters, measurements, tests)",
+        "current_value": "Use the current value (averages and trends)"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "achieved": {
+        "name": "Goals achieved",
+        "unit_of_measurement": "goals"
+      },
+      "completion": {
+        "name": "Completion"
+      },
+      "streak": {
+        "name": "Streak",
+        "unit_of_measurement": "days"
+      },
+      "best_streak": {
+        "name": "Best streak",
+        "unit_of_measurement": "days"
+      },
+      "points_today": {
+        "name": "Points today",
+        "unit_of_measurement": "points"
+      },
+      "total_points": {
+        "name": "Total points",
+        "unit_of_measurement": "points"
+      },
+      "progress": {
+        "name": "{goal} progress"
+      }
+    },
+    "binary_sensor": {
+      "perfect_day": {
+        "name": "Perfect day"
+      },
+      "achieved": {
+        "name": "{goal} achieved"
+      }
+    }
+  },
+  "services": {
+    "set_statistics": {
+      "name": "Set statistics",
+      "description": "Sets the streak, the best streak and the total points by hand, for example to carry them over from another setup. Target any sensor of the set of goals.",
+      "fields": {
+        "streak": {
+          "name": "Streak",
+          "description": "Perfect days in a row, today included if it is already perfect."
+        },
+        "best_streak": {
+          "name": "Best streak",
+          "description": "Longest streak so far (never lower than the streak)."
+        },
+        "total_points": {
+          "name": "Total points",
+          "description": "Points earned so far."
+        }
+      }
+    }
+  }
+}
