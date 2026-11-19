@@ -6,6 +6,7 @@ from freezegun.api import FrozenDateTimeFactory
 from homeassistant.config_entries import ConfigSubentryData
 from homeassistant.const import STATE_UNAVAILABLE
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import device_registry as dr, entity_registry as er
 from homeassistant.util import dt as dt_util
 import pytest
 from pytest_homeassistant_custom_component.common import (
@@ -110,6 +111,38 @@ async def test_entities_and_card_data(hass: HomeAssistant, setup) -> None:
     assert not hrv["waiting"] and hrv["value"] == 38.0 and hrv["progress"] == 95 and hrv["unit"] == "ms"
     assert hass.states.get("sensor.daily_goals_hrv_progress").state == "95"
     assert hass.states.get("sensor.daily_goals_steps_progress").state == "unknown"
+
+
+async def test_every_goal_has_its_own_device(hass: HomeAssistant, setup, caplog: pytest.LogCaptureFixture) -> None:
+    """A device belongs to one subentry: sharing it made recent Home Assistant drop goal entities."""
+    entry, _ = setup
+    assert await hass.config_entries.async_reload(entry.entry_id)
+    await hass.async_block_till_done()
+
+    def subentry_of(device: dr.DeviceEntry) -> str | None:
+        if hasattr(device, "config_subentry_id"):  # Home Assistant 2026.10+
+            return device.config_subentry_id
+        return next(iter(device.config_entries_subentries[entry.entry_id]))
+
+    entities = er.async_entries_for_config_entry(er.async_get(hass), entry.entry_id)
+    assert len(entities) == 7 + 2 * len(GOALS)
+    for entity in entities:
+        assert hass.states.get(entity.entity_id) is not None, entity.entity_id
+
+    devices = dr.async_entries_for_config_entry(dr.async_get(hass), entry.entry_id)
+    main = next(d for d in devices if (DOMAIN, entry.entry_id) in d.identifiers)
+    assert subentry_of(main) is None
+    for goal_id, title, _ in GOALS:
+        device = next(d for d in devices if (DOMAIN, f"{entry.entry_id}_{goal_id}") in d.identifiers)
+        assert device.name == title
+        assert device.via_device_id == main.id
+        assert subentry_of(device) == goal_id
+    assert len(devices) == 1 + len(GOALS)
+
+    by_device = {d.id: subentry_of(d) for d in devices}
+    for entity in entities:
+        assert by_device[entity.device_id] == entity.config_subentry_id, entity.entity_id
+    assert "different config subentry" not in caplog.text
 
 
 async def test_goal_achieved_notifies_once_with_reward(hass: HomeAssistant, setup) -> None:

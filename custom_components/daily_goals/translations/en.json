@@ -213,7 +213,7 @@
         "unit_of_measurement": "points"
       },
       "progress": {
-        "name": "{goal} progress"
+        "name": "Progress"
       }
     },
     "binary_sensor": {
@@ -221,7 +221,7 @@
         "name": "Perfect day"
       },
       "achieved": {
-        "name": "{goal} achieved"
+        "name": "Achieved"
       }
     }
   },

@@ -15,7 +15,7 @@ README stay in English. User-facing strings exist in English and Italian.
 ## Commands
 
 ```bash
-python -m venv .venv && . .venv/bin/activate && pip install -r requirements_test.txt   # once (Python 3.13)
+python -m venv .venv && . .venv/bin/activate && pip install -r requirements_test.txt   # once (Python 3.14: the newest Home Assistant test harness requires it)
 scripts/check.sh                   # everything CI runs: ruff, card syntax, pytest
 scripts/check.sh -k midnight       # extra arguments go to pytest
 python scripts/screenshots.py      # rebuilds images/*.png and the brand icons (needs playwright, rsvg-convert)
@@ -49,6 +49,8 @@ Slash commands: `/publish` (first publication) and `/release X.Y.Z` (later versi
   `.github/workflows/validate.yml` create the tag and the GitHub release after all checks pass.
 - **Goals are config subentries** (type `goal`). Adding, changing or removing one reloads the entry; the
   entities of a goal belong to its subentry, so they disappear with it. A goal ID is its subentry ID.
+  A device belongs to one subentry: every goal has its own device (via_device = the entry's device); never
+  put entities of different subentries on one device (Home Assistant drops them).
 - **Achievements are latched for the day** and notified once. Silent on purpose: goals met at the
   midnight rollover, and values coming back from `unavailable`/`unknown` or restored at startup. A
   "new value" goal counts a reading only when the value differs from the last one seen (`last_seen`,

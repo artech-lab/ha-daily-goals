@@ -213,7 +213,7 @@
         "unit_of_measurement": "punti"
       },
       "progress": {
-        "name": "Avanzamento {goal}"
+        "name": "Avanzamento"
       }
     },
     "binary_sensor": {
@@ -221,7 +221,7 @@
         "name": "Giornata perfetta"
       },
       "achieved": {
-        "name": "Obiettivo {goal} raggiunto"
+        "name": "Raggiunto"
       }
     }
   },

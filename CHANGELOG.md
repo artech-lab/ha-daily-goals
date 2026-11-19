@@ -6,6 +6,16 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Fixed
+
+- Entities disappeared after adding goals on recent Home Assistant versions (2026.10 and later): every goal
+  now has its own device, linked to the device of the set of goals. Goal entities are named *Progress* and
+  *Achieved* (the goal name is the device name).
+
+### Changed
+
+- CI runs on Python 3.14.
+
 ## [1.0.0] - 2026-11-18
 
 First public release.

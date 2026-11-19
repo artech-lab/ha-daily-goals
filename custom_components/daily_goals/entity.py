@@ -17,10 +17,16 @@ from .tracker import GoalTracker
 
 
 class DailyGoalsEntity(Entity):
-    """Common behaviour: one device per entry, English entity IDs, push updates.
+    """Common behaviour: devices, English entity IDs, push updates.
 
-    Summary entities have no goal; goal entities carry their goal and belong
-    to its subentry, so removing the goal removes them.
+    Summary entities have no goal and sit on the device of the entry. Goal
+    entities carry their goal and belong to its subentry, so removing the goal
+    removes them. A device belongs to one subentry only: if entities of
+    different subentries shared one device, Home Assistant would move the
+    device to the last subentry and drop the entities registered before. So
+    every goal has its own device, linked to the device of the entry through
+    via_device; the goal name is the device name, and entity names are just
+    "Progress" and "Achieved".
     """
 
     _attr_has_entity_name = True
@@ -42,16 +48,26 @@ class DailyGoalsEntity(Entity):
         else:
             self._attr_unique_id = f"{entry.entry_id}_{goal.id}_{description.key}"
             self.entity_id = f"{platform}.{tracker.slug}_{slugify(goal.name) or 'goal'}_{description.key}"
-            self._attr_translation_placeholders = {"goal": goal.name}
             self._attr_icon = goal.icon if description.key == "progress" else None
-        self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, entry.entry_id)},
-            name=entry.title,
-            manufacturer="Daily Goals",
-            model="Daily goals",
-            sw_version=tracker.version,
-            entry_type=DeviceEntryType.SERVICE,
-        )
+        if goal is None:
+            self._attr_device_info = DeviceInfo(
+                identifiers={(DOMAIN, entry.entry_id)},
+                name=entry.title,
+                manufacturer="Daily Goals",
+                model="Daily goals",
+                sw_version=tracker.version,
+                entry_type=DeviceEntryType.SERVICE,
+            )
+        else:
+            self._attr_device_info = DeviceInfo(
+                identifiers={(DOMAIN, f"{entry.entry_id}_{goal.id}")},
+                name=goal.name,
+                manufacturer="Daily Goals",
+                model="Goal",
+                sw_version=tracker.version,
+                entry_type=DeviceEntryType.SERVICE,
+                via_device=(DOMAIN, entry.entry_id),
+            )
         self._written: Any = None
 
     async def async_added_to_hass(self) -> None:
