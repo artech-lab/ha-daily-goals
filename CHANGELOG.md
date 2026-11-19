@@ -6,6 +6,8 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-11-19
+
 ### Fixed
 
 - A perfect day reached with the goals configured so far is revoked when more goals are added the same day
