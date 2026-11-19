@@ -55,6 +55,8 @@ Slash commands: `/publish` (first publication) and `/release X.Y.Z` (later versi
   midnight rollover, and values coming back from `unavailable`/`unknown` or restored at startup. A
   "new value" goal counts a reading only when the value differs from the last one seen (`last_seen`,
   persisted). Keep these rules: they are what prevents duplicate or midnight notifications.
+  The perfect day is latched too, but rechecked at startup: if goals were added the same day and are not
+  all achieved, it is revoked (streak back by one, best streak back to `best_before_perfect`).
 - **Logic only in `goals.py` and `tracker.py`**. The card displays what the integration computes: the
   goals come from the `goals` attribute of the achieved sensor (unrecorded), streak and points from
   sibling entities discovered through the device (`translation_key` -> role in `SIBLINGS`).

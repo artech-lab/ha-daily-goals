@@ -3,7 +3,7 @@
 from datetime import datetime, timedelta
 
 from freezegun.api import FrozenDateTimeFactory
-from homeassistant.config_entries import ConfigSubentryData
+from homeassistant.config_entries import ConfigSubentry, ConfigSubentryData
 from homeassistant.const import STATE_UNAVAILABLE
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import device_registry as dr, entity_registry as er
@@ -227,6 +227,35 @@ async def test_perfect_day_streak_and_midnight(hass: HomeAssistant, setup, freez
     assert hass.states.get("sensor.daily_goals_best_streak").state == "2"
     # 30 + 30, then the 7-day average alone on the next two days
     assert hass.states.get("sensor.daily_goals_total_points").state == "80"
+
+
+async def test_adding_a_goal_revokes_todays_perfect_day(hass: HomeAssistant, freezer: FrozenDateTimeFactory) -> None:
+    """A perfect day reached with the goals configured so far does not survive a new goal."""
+    await hass.config.async_set_time_zone("Europe/Rome")
+    freezer.move_to(local(10, 9))
+    async_mock_service(hass, "notify", "mobile_app_phone")
+    hass.states.async_set("sensor.phone_steps", "9000")
+    entry = make_entry(GOALS[:1])
+    entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+    assert hass.states.get("binary_sensor.daily_goals_perfect_day").state == "on"
+    assert hass.states.get("sensor.daily_goals_streak").state == "1"
+
+    hass.config_entries.async_add_subentry(
+        entry,
+        ConfigSubentry(
+            data={"source_entity": "sensor.hrv_7_day_average", "target": 40},
+            subentry_type="goal",
+            title="HRV",
+            unique_id=None,
+        ),
+    )
+    await hass.async_block_till_done()
+    assert hass.states.get("binary_sensor.daily_goals_perfect_day").state == "off"
+    assert hass.states.get("sensor.daily_goals_streak").state == "0"
+    assert hass.states.get("sensor.daily_goals_best_streak").state == "0"
+    assert hass.states.get("binary_sensor.daily_goals_steps_achieved").state == "on"
 
 
 async def test_restart_keeps_the_day_without_duplicates(hass: HomeAssistant, setup) -> None:

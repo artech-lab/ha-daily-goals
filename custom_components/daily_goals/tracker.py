@@ -78,6 +78,7 @@ class GoalTracker:
         # Long-term statistics (persisted)
         self.streak = 0
         self.best_streak = 0
+        self.best_before_perfect = 0  # best streak before today's perfect day, to revoke it
         self.total_points = 0
 
     # ------------------------------------------------------------ configuration
@@ -142,6 +143,7 @@ class GoalTracker:
         self.last_seen = {k: float(v) for k, v in data.get("last_seen", {}).items() if k in self.goals}
         self.streak = int(data.get("streak", 0))
         self.best_streak = int(data.get("best_streak", 0))
+        self.best_before_perfect = int(data.get("best_before_perfect", self.best_streak))
         self.total_points = int(data.get("total_points", 0))
 
     @callback
@@ -150,6 +152,13 @@ class GoalTracker:
         today = dt_util.now().date()
         if self.day != today:
             self._rollover(today)
+        elif self.perfect and not self.achieved >= set(self.goals):
+            # Goals added after today's perfect day: the day is no longer perfect. The goals
+            # already achieved and their points stay.
+            self.perfect = False
+            self.streak = max(0, self.streak - 1)
+            self.best_streak = self.best_before_perfect
+            persistent_notification.async_dismiss(self.hass, self._notification_id(PERFECT_KEY))
         silent: set[str] = set()
         for goal in self.goals.values():
             state = self.hass.states.get(goal.source)
@@ -177,6 +186,7 @@ class GoalTracker:
             "last_seen": self.last_seen,
             "streak": self.streak,
             "best_streak": self.best_streak,
+            "best_before_perfect": self.best_before_perfect,
             "total_points": self.total_points,
         }
 
@@ -274,6 +284,7 @@ class GoalTracker:
 
         if self.goals and not self.perfect and self.achieved >= set(self.goals):
             self.perfect = True
+            self.best_before_perfect = self.best_streak
             self.streak += 1
             record = self.streak > self.best_streak and self.streak > 1
             self.best_streak = max(self.best_streak, self.streak)

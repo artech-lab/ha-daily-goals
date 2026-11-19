@@ -6,6 +6,11 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Fixed
+
+- A perfect day reached with the goals configured so far is revoked when more goals are added the same day
+  (streak and best streak go back).
+
 ## [1.0.1] - 2026-11-19
 
 ### Fixed
