@@ -6,6 +6,8 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-11-19
+
 ### Fixed
 
 - Entities disappeared after adding goals on recent Home Assistant versions (2026.10 and later): every goal
